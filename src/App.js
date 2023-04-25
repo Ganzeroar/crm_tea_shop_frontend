@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import Table from './Table';
+import Header from './Header';
+import Form from './add_products_form';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends Component {
+    state = {
+        products: []
+    };
+
+    removeProduct = index => {
+        const { products } = this.state;
+
+        this.setState({
+            products: products.filter((products, i) => {
+                return i !== index;
+            })
+        });
+    }
+
+    handleSubmit = products => {
+        this.setState({products: [...this.state.products, products]});
+    }
+
+    render() {
+        const { products } = this.state;
+
+        return (
+            <div className='container'>
+                <Header />
+                <Table
+                    productsData={products}
+                    removeProduct={this.removeProduct}
+                    />
+                <Form handleSubmit={this.handleSubmit} />
+            </div>
+        )
+    }
 }
 
-export default App;
+export default App
